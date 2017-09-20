@@ -128,6 +128,7 @@ module.exports = function(app) {
 
   plugin.schema = {
     title: "Derived Data",
+    description: "Calulates various sets of derived data.",
     type: "object",
     properties: {
     }

@@ -15,7 +15,7 @@
       "name": "Joachim Bakke"
     }
   ],
-  "license": "ISC",
+  "license": "Apache-2.0",
   "dependencies": {
     "baconjs": "^0.7.88",
     "debug": "^2.2.0",
