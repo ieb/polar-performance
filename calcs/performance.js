@@ -217,14 +217,35 @@ module.exports = function(app) {
     return otherTrack;
   }
 
+  function fixDirection(d) {
+    if ( d > Math.PI*2 ) d = d - Math.PI*2;
+    if ( d < 0 ) d = d + Math.PI*2;
+    return d;
+  }
+
+  function calcDerived(awa, aws, stw, headingMagnetic, magneticVariation) {
+      var apparentX = Math.cos(awa) * aws;
+      var apparentY = Math.sin(awa) * aws;
+      return {
+        twa : Math.atan2(apparentY, -stw + apparentX),
+        tws : Math.sqrt(Math.pow(apparentY, 2) + Math.pow(-stw + apparentX, 2)),
+        hdt : fixDirection(headingMagnetic - magneticVariation)
+      };
+  }
+
+
+
     
   var polarPerf = {
     group: "performance",
     optionKey: 'polarPerformance',
-    title: "Polar Performance using based on tws, twa, stw, hdt and variation",
-    derivedFrom: [ "environment.wind.angleTrueWater", "environment.wind.speedTrue", "navigation.speedThroughWater", 
-    'navigation.headingTrue', 'navigation.magneticVariation'
-    ],
+    title: "Polar Performance using based on aws, awa, stw, hdm and variation",
+    derivedFrom: [ "environment.wind.angleApparent",
+    "environment.wind.speedApparent",
+    "navigation.speedThroughWater",
+    "navigation.headingMagnetic",
+    "navigation.magneticVariation"
+     ],
     init: function(options) {
       // need to find some way of loading a specif polar file
       var polar = require('../polar/pogo1250');
@@ -248,14 +269,17 @@ module.exports = function(app) {
         }
       };
       // Optimisatin,
+      console.log("Building fine polar  ");
       polar = buildFinePolarTable(polar);
       polarPerf.polar = polar;
     },
-    calculator: function(twa, tws, stw, trueHeading, magneticVariation){
+    calculator: function(awa, aws, stw, magneticHeading, magneticVariation){
       try {
-      var targets = calcTargetAngleSpeed(polarPerf.polar, tws, twa, stw);
-      var polarPerformance = getPerformance(polarPerf.polar, tws,twa, stw, targets);
-      var track = calcOtherTrack(polarPerformance, targets, tws, twa, stw, trueHeading, magneticVariation);
+        //console.log("Calculating Performance ", {awa:awa, aws:aws, stw:stw, magneticHeading:magneticHeading, magneticVariation:magneticVariation});
+        var derived = calcDerived(awa, aws, stw, magneticHeading, magneticVariation);      
+        var targets = calcTargetAngleSpeed(polarPerf.polar, derived.tws, derived.twa, stw);
+        var polarPerformance = getPerformance(polarPerf.polar, derived.tws,derived.twa, stw, targets);
+        var track = calcOtherTrack(polarPerformance, targets, derived.tws, derived.twa, stw, derived.hdt, magneticVariation);
 
       /*console.log("performance,",
         msToKnots(tws).toFixed(2),
@@ -297,8 +321,12 @@ module.exports = function(app) {
       { path: 'performance.targetSpeed', value: targets.stw}, // target speed on at best vmg and angle
       { path: 'performance.targetVelocityMadeGood', value: targets.vmg}, // target vmg -ve == downwind
       { path: 'performance.velocityMadeGood', value: polarPerformance.vmg}, // current vmg at polar speed
-      { path: 'performance.polarVelocityMadeGoodRatio', value: polarPerformance.polarVmgRatio} // current vmg vs current polar vmg.
+      { path: 'performance.polarVelocityMadeGoodRatio', value: polarPerformance.polarVmgRatio}, // current vmg vs current polar vmg.
+      { path: 'environment.wind.angleTrueWater', value: derived.twa }, // TWA
+      { path: 'environment.wind.speedTrue', value: derived.tws }, // TWA
+      { path: 'navigation.headingTrue', value: derived.hdt }
             ];
+
       } catch (e) {
         console.log(e);
       }

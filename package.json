@@ -1,6 +1,6 @@
 {
-  "name": "@ieb/signalk-derived-data",
-  "version": "1.4.111",
+  "name": "@ib236/signalk-derived-data",
+  "version": "1.4.112",
   "description": "Plugin that derives signalk data from other signalk data, forked from the SignalK version.",
   "main": "index.js",
   "scripts": {

@@ -61,7 +61,7 @@ module.exports = function(app) {
           derivedFrom.map(app.streambundle.getSelfStream, app.streambundle)
         )
           .changes()
-          .debounceImmediate(20)
+          .debounceImmediate(500)
           .skipDuplicates(function(before,after) {
             var tnow = (new Date()).getTime();
             if ( _.isEqual(before,after) ) {
@@ -119,7 +119,7 @@ module.exports = function(app) {
   }
 
   plugin.id = "derived-data"
-  plugin.name = "Derived Data"
+  plugin.name = "Derived Data with Polars"
   plugin.description = "Plugin that derives data"
 
 
