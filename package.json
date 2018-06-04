@@ -1,7 +1,7 @@
 {
-  "name": "@ib236/signalk-derived-data",
-  "version": "1.4.112",
-  "description": "Plugin that derives signalk data from other signalk data, forked from the SignalK version.",
+  "name": "@ib236/polar-performance",
+  "version": "1.4.115",
+  "description": "Plugin that provides performance data from other data. Based on signalk-derived-data",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
