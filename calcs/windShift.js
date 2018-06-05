@@ -6,6 +6,7 @@ var alarmSent = false
 
 module.exports = function(app, plugin) {
   return {
+    hide: true,
     group:'wind',
     optionKey: 'windShift',
     title: "Wind Shift (experimental)",

@@ -10,6 +10,7 @@ module.exports = function(app, plugin) {
 
     return propulsionInstances.map(instance => {
       return {
+        hide: true,
         group: 'propulsion',
         optionKey: 'propslip' + instance,
         title: "propulsion." + instance + ".slip (based on RPM, propulsion." + instance + ".transmission.gearRatio and propulsion." + instance + ".drive.propeller.pitch)",
@@ -23,6 +24,7 @@ module.exports = function(app, plugin) {
     });
   } else {
     return {
+      hide: true,
       optionKey: 'propslip',
       title: "propulsion.*.slip (will not work without RPM, propulsion.*.transmission.gearRatio and propulsion.*.drive.propeller.pitch, the two latter inserted in defaults.json)"
     }

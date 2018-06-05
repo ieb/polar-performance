@@ -118,17 +118,17 @@ module.exports = function(app) {
     debug("stopped")
   }
 
-  plugin.id = "derived-data"
-  plugin.name = "Derived Data with Polars"
-  plugin.description = "Plugin that derives data"
+  plugin.id = "polar-performance"
+  plugin.name = "Performance Data"
+  plugin.description = "Plugin that derives performance data"
 
 
   var calculations = load_calcs(app, plugin, 'calcs')
   calculations = [].concat.apply([], calculations)
 
   plugin.schema = {
-    title: "Derived Data",
-    description: "Calulates various sets of derived data.",
+    title: "Performance Data",
+    description: "Calulates various sets of performance data.",
     type: "object",
     properties: {
     }
@@ -137,18 +137,20 @@ module.exports = function(app) {
   var groups = {}
 
   calculations.forEach(calc => {
-    var groupName
+    if ( !calc.hide ) {
+      var groupName
 
-    if ( typeof calc.group !== 'undefined' ) {
-      groupName = calc.group
-    } else {
-      groupName = 'nogroup'
+      if ( typeof calc.group !== 'undefined' ) {
+        groupName = calc.group
+      } else {
+        groupName = 'nogroup'
+      }
+        
+      if ( !(groups[groupName]) ) {
+        groups[groupName] = []
+      }
+      groups[groupName].push(calc)      
     }
-      
-    if ( !(groups[groupName]) ) {
-      groups[groupName] = []
-    }
-    groups[groupName].push(calc)
   });
 
   plugin.uiSchema = {
