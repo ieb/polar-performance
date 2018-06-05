@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-const debug = require('debug')('signalk-derived-data')
+const debug = require('debug')('polar-performance')
 const Bacon = require('baconjs');
 const util = require('util')
 const _ = require('lodash')
@@ -86,7 +86,7 @@ module.exports = function(app) {
                 "updates": [
                   {
                     "source": {
-                      "src": "derived_data"
+                      "src": "performance_data"
                     },
                     "timestamp": (new Date()).toISOString(),
                     "values": values
@@ -118,7 +118,7 @@ module.exports = function(app) {
     debug("stopped")
   }
 
-  plugin.id = "polar-performance"
+  plugin.id = "performance-data"
   plugin.name = "Performance Data"
   plugin.description = "Plugin that derives performance data"
 
