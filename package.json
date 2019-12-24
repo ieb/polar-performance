@@ -9,22 +9,23 @@
   "keywords": [
     "signalk-node-server-plugin"
   ],
-  "author": { "name": "Ian Boston", "email": "ianboston,gmail.com"},
+  "author": {
+    "name": "Ian Boston",
+    "email": "ianboston,gmail.com"
+  },
   "contributors": [
     {
-      "name": "Scott Bender",
       "name": "Joachim Bakke"
     }
   ],
   "license": "Apache-2.0",
   "dependencies": {
-    "baconjs": "^0.7.88",
-    "debug": "^2.2.0",
-    "lodash": "^3.10.1"
+    "baconjs": "^0.7.95",
+    "debug": "^2.6.9",
+    "lodash": "^4.17.15"
   },
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/ieb/polar-performance"
+    "type": "git",
+    "url": "https://github.com/ieb/polar-performance"
   }
-
 }

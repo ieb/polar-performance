@@ -5,6 +5,7 @@ module.exports = function(app) {
     group: 'wind',
     optionKey: 'trueWind',
     title: "True Wind Angle, Direction and Speed (based on speed through water, AWA and AWS)",
+    defaultValues: [ 0, 0, 0, 0],
     derivedFrom: [ "navigation.headingTrue", "navigation.speedThroughWater", "environment.wind.speedApparent", "environment.wind.angleApparent" ],
     calculator: function(headTrue, speed, aws, awa) {
       var apparentX = Math.cos(awa) * aws;

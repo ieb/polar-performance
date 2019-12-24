@@ -240,6 +240,7 @@ module.exports = function(app) {
     group: "performance",
     optionKey: 'polarPerformance',
     title: "Polar Performance using based on aws, awa, stw, hdm and variation",
+    defaultValues: [ 0, 0, 0, 0],
     derivedFrom: [ "environment.wind.angleApparent",
     "environment.wind.speedApparent",
     "navigation.speedThroughWater",

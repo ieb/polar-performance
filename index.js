@@ -54,11 +54,20 @@ module.exports = function(app) {
         // might need to add configuration options here in the future.
         calculation.init();
       }
+      var inputStreams = derivedFrom.map(app.streambundle.getSelfStream, app.streambundle);
+      if ( calculation.defaultValues ) {
+        // provide a starting default where there is none.
+        for (var i = 0; i < inputStreams.length; i++) {
+          if ( calculation.defaultValues[i] !== undefined) {
+            inputStreams[i] = inputStreams[i].startWith(calculation.defaultValues[i]);
+          }
+        }
+      }
       
       unsubscribes.push(
         Bacon.combineWith(
           calculation.calculator,
-          derivedFrom.map(app.streambundle.getSelfStream, app.streambundle)
+          inputStreams
         )
           .changes()
           .debounceImmediate(500)
